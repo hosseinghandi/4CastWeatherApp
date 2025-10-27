@@ -1,0 +1,231 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link id="maincss" rel="stylesheet" href="styles.css" />
+    <title>4CAST</title>
+    <link rel="icon" type="image/icon" href="/icons/logo/logo-white.png">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+  </head>
+  <body class="body-grid" id="body">
+    <!-- background video -->
+    <div id="video-background-wrapper"></div>
+    <header class="global-padding" id="header-wrapper">
+        <div class="flex-upper-header">
+        <div class="logo-wrapper" aria-label="page logo">
+          <span class="app-name">4CAST</span>
+          <img
+            id="logo-icon-src"
+            class="logo-icon"
+            src="icons/logo/logo-black.png"
+            alt="a logo includes of sun, cloudes and rain"
+          />
+        </div>
+  
+        <nav id="searchbox">
+          <img class="search-icon" id="search-icon-src" src="icons/navigation/search-b.png" alt="a search icon in black color" />
+          <input id="searchInput" type="text" placeholder="search a city or a location" aria-label="Search for a city or location"/>
+        </nav>
+      </div>
+      <div id="errorCitySearch" class="border" role="alert" >
+        <p class="errorCitySearchtext" aria-errormessage="The city or location is not valid, try again">
+          The city or location is not valid, try again </p>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="details global-padding">
+        <div class="details-list">
+          <section class="baner-wrapper global-padding">
+            <div class="location-wrapper" id="location"></div>
+
+            <div class="temp-wrapper">
+              <h1 id="main-temp"></h1>
+            </div>
+
+            <div class="H_L-wrapper">
+              <p id="high-tem"></p>
+              <p id="low-tem"></p>
+            </div>
+
+            <div class="temp-state-wrapper">
+              <h2 id="general-temp-state"></h2>
+            </div>
+          </section>
+
+          <section class="daily-weather border mod-round" id="scroll-hourly" aria-label="24 hours weather forcast">
+            <div class="title-hourly-section">
+              <span id="section-title">Hourly forecast:</span>
+              <i class="fa-solid fa-arrow-right" id="scroll-fading-hourly"></i>
+            </div>
+            <div id="hourly-weather-wrapper"></div>
+          </section>
+
+          <div class="detail-wrapper border mod-round uv" aria-label="Uv indicator of the day">
+            <div class="detail-title">
+              <img
+                id="uv-icon-src"
+                class="uv-icon"
+                src="icons/detailed/uv-b.png"
+                alt="an icon of sun which describes the sun UV"
+              />
+              <p>UV Index</p>
+            </div>
+            <div class="uv-gradient-line-wrapper">
+              <span id="uv-index"></span>
+              <div class="gradient-line uv">
+                <span id="uv-indicator"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-wrapper border mod-round wind"  
+          aria-label="Wind direction, velocity and guts">
+            <div class="detail-title">
+              <img
+                id="wind-icon-src"
+                class="wind-icon"
+                src="icons/detailed/wind-b.png"
+                alt="an icon of wind blowing "
+              />
+              <p>Wind</p>
+            </div>
+            <div class="detail-wrapper-col-wind">
+              <div class="wind-left-clo">
+                <span id="wind-velocity"></span>
+                <span id="wind-gusts"></span>
+                <span id="wind-direction"></span>
+              </div>
+              <div class="ind-right-clo">
+                <div class="wind-compass" 
+                aria-label="a wind compass to indicate the wind direction ">
+                  <img
+                    class="wind-compass-circle"
+                    src="./images/wind-direction-rose.png"
+                    alt="a wind compass divided by 8 sections as main direction like north"
+                  />
+
+                  <img
+                    id="wind-compass-arrow"
+                    src="./images/arrow.png"
+                    alt="Arrow indicating wind direction"
+                  />
+
+                  <span class="centre-circle"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-wrapper border mod-round humidity"
+          aria-label="humidity presented by percentage">
+            <div class="detail-title">
+              <img
+                id="drops-icon-src"
+                class="drops-icon"
+                src="icons/detailed/drops-b.png"
+                alt="an icon of a dropping water"
+              />
+              <p>Humidity</p>
+            </div>
+            <span id="humidity"></span>
+          </div>
+
+          <div class="detail-wrapper border mod-round view"
+          aria-label="view presented by km">
+            <div class="detail-title">
+              <img
+                id="view-icon-src"
+                class="view-icon"
+                src="icons/detailed/view-b.png"
+                alt="an icon of an eye to present the visibility"
+              />
+              <p>Visibility</p>
+            </div>
+            <span id="visibility"></span>
+          </div>
+
+          <div class="detail-wrapper border mod-round pressure"
+          aria-label="pressure presented by hPa">
+            <div class="detail-title">
+              <img
+                id="pressure-icon-src"
+                class="pressure-icon"
+                src="icons/detailed/pressure-b.png"
+                alt="an icon of a pressure gauge"
+              />
+              <p>Pressure</p>
+            </div>
+            <span id="pressure"></span>
+          </div>
+
+          <div class="detail-wrapper border mod-round umbrella_wrapper"
+          aria-label="rain chance indicator"
+          >
+            <div class="detail-title umbrella">
+              <img
+                id="umbrella-icon-src"
+                class="umbrella-icon"
+                src="icons/detailed/umbrella-b.png"
+                alt="an icon of an umbrella "
+              />
+              <p>Rain chance</p>
+            </div>
+            <div class="gradient-per">
+              <div class="gradient-line rain">
+                <span id="rain-indicator"></span>
+              </div>
+              <span id="rain-chance"></span>
+            </div>
+          </div>
+
+          <div class="detail-wrapper border mod-round sunpath"
+          aria-label="sun path ">
+            <div class="sunpath-wrapper">
+              <span id="section-title">Sun path</span>
+              <img
+                id="sun-diagram"
+                class="sunpath-image"
+                src=""
+                alt="a diagram of sun path"
+              />
+            </div>
+            <div class="time-sunpath-wrapper" id="sunTime-wrapper"></div>
+          </div>
+
+          <section class="weekly-weather border mod-round"
+          aria-label="weekly weather forecast ">
+            <div class="title-weekly-section">
+              <span id="section-title">7-day forecast</span>
+              <i class="fa-solid fa-arrow-right" id="scroll-fading-weekly"></i>
+            </div>
+            <div id="Weekly-weather-wrapper"></div>
+          </section>
+        </div>
+      </section>
+      
+    </main>
+  </body>
+  <script src="index.js" type="module"></script>
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+</html>

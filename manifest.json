@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "version": "1.0",
+    "name": "4Cast",
+    "action": {
+        "default_popup": "index.html",
+        "default_icon": "icons/logo/logo-white.png",
+        "name": "4Cast",
+        "permissions": [
+        "tabs",
+        "activeTab",
+        "storage"
+    ]
+      }
+}

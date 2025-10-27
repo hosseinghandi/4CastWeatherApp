@@ -1,0 +1,878 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap");
+
+/* General css styles */
+:root {
+  /* colors */
+  --whitecolor: #d8d6d6;
+  --balckcolor: #282828;
+  --balckcolor-mate: #5d5d5d;
+  /* objects' Size */
+  --iconsize: 5vw;
+  --searchicon: 4vw;
+  --logoicon: calc(var(--iconsize) + 4vw);
+  --iconsizesmall: 4vw;
+  --weathericon: 8vw;
+  --circleSize: 7px;
+  --gardientLine: 2px;
+  
+  /* paddings, margins and gaps (excluded grid setting)*/
+  --bodypadding: 0.5em 0 1rem 0;
+  --weatherboxpaddings: 0.8em;
+  --globalpadding: 0 1.3em;
+  --globalpaddingsides: 1.3em;
+  --searchboxpadding: 0.5em;
+  --banermarginbottom: 2em;
+  --sectionstitlegap: 0.5em;
+  --gapwithinweatheritems: 0.8em;
+
+  /* textSizes */
+  --appname: 1em;
+  --temph1: 8em;
+  --smalltemp: 1.1em;
+  --hot-low: 1em;
+  --tempstate: 2.5em;
+  --detailvaluenorm: 0.9em;
+  --detailvaluebold: 1.2em;
+  --fontsizewatherdata: 1em;
+
+  /* width and height*/
+  --searchboxsize-extention: 100vw;
+  --compassSize: 25vw;
+  --centrecompasscircle: 20%;
+  --sunpathwidth: 80%;
+}
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+#errorholder{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60vw;
+  height: fit-content;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow:0px 0px 10px rgb(151, 151, 151);
+  border-radius: 20px;
+  padding: 1rem 2rem;
+  gap: 1em;
+  max-width: 500px;
+  min-width: 250px;
+
+}
+#errortext{
+  border: none;
+  font-weight: 200;
+  font-size: 2vh;
+  line-height: 1.4;
+  color: #000;
+}
+.exclamation-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid  rgb(255, 177, 177);
+  border-radius: 999em;
+  min-width: 35px;
+  min-height: 35px;
+  width: 3vw;
+  height: 3vw;
+  padding: 0.3em ;
+}
+i.fa-exclamation{
+    font-size: 2vh;
+    color: rgb(255, 148, 148);
+}
+
+body,
+html {
+  min-width: 375px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--bodypadding);
+  font-size: 1rem;
+  font-family: "Inter", sans-serif;
+  color: var(--balckcolor);
+  position: relative;
+}
+
+.global-padding {
+  padding: var(--globalpadding);
+}
+
+#main {
+  display: none;
+}
+
+.border {
+  padding: 0.5em 1em;
+  border: 1px solid var(--balckcolor);
+  backdrop-filter: blur(10px);
+}
+.round {
+  border-radius: 999em;
+}
+
+.mod-round {
+  border-radius: 15px;
+}
+
+img[class*="icon"] {
+  width: var(--iconsize);
+}
+
+img[class$="-s"] {
+  width: var(--iconsizesmall);
+}
+img.logo-icon {
+  width: var(--logoicon);
+}
+
+span#section-title {
+  font-size: var(--detailvaluenorm);
+  width: fit-content;
+  border-bottom: 1px solid var(--balckcolor);
+}
+i.fa-arrow-right {
+  color: var(--balckcolor);
+  font-size: var(--detailvaluenorm);
+  opacity : 1;
+}
+
+/* background video */
+#backVideo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1;
+  object-fit: cover;
+  transform: translate(-50%, -50%) scale(1.2);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* navigation */
+header {
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1em;
+  height: 100px;
+}
+.flex-upper-header{
+  gap: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: start;
+}
+#errorCitySearch {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  width: fit-content;
+  border-radius: 1rem;
+  border: 1px solid rgb(255, 87, 87);
+  padding: 0.5rem;
+  transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+#errorCitySearch.active {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+
+header .logo-wrapper {
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header .app-name {
+  font-size: var(--appname);
+}
+
+#searchBox {
+    right:var(--globalpaddingsides);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 999em;
+    padding: var(--searchboxpadding);
+    border: 1px solid var(--balckcolor);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: width 1s ease-in-out;
+}
+#searchBox:hover {
+  width: var(--searchboxsize-extention);
+}
+
+#searchInput {
+  all: unset;
+  width: 0;
+  opacity: 0;
+  transition: width 0.5s ease, opacity 0.01s ease;
+}
+
+#searchBox:hover #searchInput{
+  width: calc(var(--searchboxsize-extention) - 10vw);
+  margin-left: 1em;
+  opacity: 1;
+}
+
+img.search-icon {
+  width: var(--searchicon);
+  height: var(--searchicon);
+}
+
+#searchInput::placeholder {
+  color: var(--balckcolor);
+  font-size: 0.9rem;
+}
+
+/* baner */
+section.baner-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: var(--banermarginbottom);
+}
+
+div.temp-wrapper h1 {
+  font-size: var(--temph1);
+}
+
+h1 span.degree {
+  font-size: calc(var(--temph1) / 12);
+}
+
+div.H_L-wrapper {
+  font-size: var(--hot-low);
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--balckcolor-mate);
+  padding-bottom: calc(var(--temph1) * 0.03);
+}
+
+div.temp-state-wrapper {
+  text-align: center;
+}
+h2#general-temp-state {
+  margin-top: calc(var(--temph1) * 0.05);
+  font-size: var(--tempstate);
+  line-height: 1;
+}
+
+/* details and grid control*/
+div.detail-wrapper {
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
+}
+div.details-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  gap: 1em;
+  grid-template:
+    "baner baner"
+    "daily daily"
+    "uv humidity"
+    "wind wind"
+    "view pressure"
+    "umbrella umbrella"
+    "sunpath sunpath"
+    "weekly weekly";
+}
+
+.baner-wrapper {
+  grid-area: baner;
+}
+.daily-weather {
+  grid-area: daily;
+  overflow: hidden;
+}
+.weekly-weather {
+  grid-area: weekly;
+  overflow: hidden;
+}
+.uv {
+  grid-area: uv;
+}
+.wind {
+  grid-area: wind;
+}
+.humidity {
+  grid-area: humidity;
+}
+.view {
+  grid-area: view;
+}
+.pressure {
+  grid-area: pressure;
+}
+.umbrella_wrapper {
+  grid-area: umbrella;
+}
+.sunpath {
+  grid-area: sunpath;
+}
+
+div.uv-gradient-line-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+div.gradient-line.uv {
+  position: relative;
+  background: linear-gradient(
+    to right,
+    green,
+    yellow,
+    rgb(248, 162, 48),
+    red,
+    rgb(149, 2, 247)
+  );
+  width: 65%;
+  height: var(--gardientLine);
+}
+span#uv-indicator {
+  background: white;
+  border: 1px solid var(--balckcolor-mate);
+  position: absolute;
+  border-radius: 50%;
+  height: var(--circleSize);
+  width: var(--circleSize);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 0;
+  z-index: 999;
+}
+
+div.detail-title {
+  display: flex;
+  flex-direction: row;
+  gap: var(--sectionstitlegap);
+  align-items: center;
+  font-size: var(--detailvaluenorm);
+}
+strong.detail-value {
+  font-size: var(--detailvaluebold);
+}
+
+div.detail-wrapper-col-wind {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+div.wind-compass {
+  position: relative;
+  border: 1px solid var(--balckcolor);
+  border-radius: 50%;
+  height: var(--compassSize);
+  width: var(--compassSize);
+  overflow: hidden;
+}
+img.wind-compass-circle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: -2;
+}
+
+span.centre-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--centrecompasscircle);
+  height: var(--centrecompasscircle);
+  border-radius: 50%;
+  border: 1px solid var(--blackcolor, #000);
+  backdrop-filter: blur(10px);
+}
+
+img#wind-compass-arrow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 80%;
+  width: auto;
+  transform-origin: center;
+  transform: translate(-50%, -50%) rotate(var(--angle, 0deg));
+}
+div.wind-left-clo {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+div.wind-flex {
+  font-size: var(--detailvaluenorm);
+  display: flex;
+  justify-content: space-between;
+  gap: 2em;
+  border-bottom: 1px solid var(--balckcolor-mate);
+}
+
+div.umbrella_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+div.gradient-per {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+div.gradient-line.rain {
+  position: relative;
+  background: linear-gradient(
+    to right,
+    #440154 0%,
+    /* dark purple */ #3b528b 25%,
+    /* blue */ #21908d 50%,
+    /* teal */ #5ec962 75%,
+    /* green */ #fde725 100% /* yellow */
+  );
+  width: 65%;
+  height: var(--gardientLine);
+}
+
+span#rain-indicator {
+  background: white;
+  border: 1px solid var(--balckcolor-mate);
+  position: absolute;
+  border-radius: 50%;
+  height: var(--circleSize);
+  width: var(--circleSize);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  left: 0;
+  z-index: 999;
+}
+
+img.sunpath-image {
+  width: var(--sunpathwidth);
+  display: block;
+  margin: auto;
+}
+
+div.time-sunpath-wrapper {
+  width: var(--sunpathwidth);
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* weather condition */
+
+div.title-hourly-section,
+div.title-weekly-section {
+  font-size: var(--detailvaluenorm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+div#hourly-weather-wrapper,
+div#weekly-weather-wrapper {
+  display: grid;
+  font-size: var(--fontsizewatherdata);
+  padding: var(--weatherboxpaddings) 0;
+  gap: 1em;
+  grid-template-columns: repeat(25, 1fr);
+  overflow: scroll;
+  width: 100%;
+  scroll-behavior: smooth;
+  font-size: var(--detailvaluenorm);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+div.weather-item-wrapper {
+  gap: var(--gapwithinweatheritems);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  place-content: center;
+  text-align: center;
+}
+div.weather-item-wrapper img {
+  width: var(--weathericon);
+  margin: auto;
+}
+
+div#weekly-weather-wrapper {
+  grid-template-columns: repeat(7, 1fr);
+}
+
+p.fontb-small-weather-list {
+  font-size: var(--smalltemp);
+  font-weight: 600;
+}
+
+@media (max-width: 414px) {
+  #searchBox {
+    padding: 0.4em 0.5em;
+  }
+}
+
+@media (min-width: 490px) and (max-width: 620px) {
+  :root {
+    /* objects' Size */
+    --searchicon: 3vw;
+    --logoicon: calc(var(--iconsize) + 3vw);
+    --iconsizesmall: 3vw;
+    --weathericon: 7vw;
+
+    /* textSizes */
+    --appname: 1.1em;
+    --temph1: 9em;
+    --smalltemp: 1.1em;
+    --hot-low: 1.05em;
+    --tempstate: 2.3em;
+    --fontsizewatherdata: 1em;
+    --detailvaluenorm: 1em;
+    --detailvaluebold: 1.2em;
+  }
+
+  div.details-list {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    
+    grid-template:
+      "baner baner baner"
+      "daily daily daily"
+      "wind wind pressure"
+      "wind wind umbrella"
+      "uv humidity view"
+      "sunpath sunpath weekly";
+  }
+  div.detail-title .umbrella {
+    flex-direction: row;
+  }
+
+  div.gradient-per {
+    width: 100%;
+  }
+
+  div.wind-flex {
+    gap: 0.8em;
+  }
+
+  span#wind-direction .wind-flex {
+    flex-direction: column;
+    border: none;
+  }
+
+  .wind-left-clo {
+    width: 50%;
+  }
+
+  div.umbrella {
+    width: 100%;
+    flex-direction: row;
+  }
+  div.umbrella_wrapper {
+    flex-direction: column;
+  }
+  #scroll-fading-weekly {
+  display: block;
+}
+}
+
+@media (min-width: 621px) and (max-width: 800px) {
+  :root {
+    /* objects' Size */
+    --iconsize: 3vw;
+    --searchicon: 2.5vw;
+    --iconsizesmall: 3vw;
+    --weathericon: 5vw;
+    --logoicon: calc(var(--iconsize) + 4vw);
+  }
+
+  div.umbrella_wrapper {
+    flex-direction: column;
+  }
+
+  div.gradient-per {
+    width: 100%;
+  }
+
+  div.umbrella {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  div.details-list {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    grid-template:
+      "baner baner baner"
+      "daily daily daily"
+      "wind wind pressure"
+      "wind wind umbrella"
+      "uv humidity view"
+      "sunpath sunpath weekly";
+  }
+  #scroll-fading-weekly {
+  display: block;
+}
+}
+
+@media (min-width: 801px) and (max-width: 900px) {
+  :root {
+    --iconsize: 2vw;
+    --searchicon: 2vw;
+    --iconsizesmall: 2vw;
+    --logoicon: calc(var(--iconsize) + 3vw);
+    --weathericon: 5vw;
+
+    --compassSize: 15vw;
+    --centrecompasscircle: 25%;
+    --sunpathwidth: 80%;
+
+    /* textSizes */
+    --temph1: 13em;
+
+    /* width and height*/
+    --searchboxsize-extention: 40vw;
+    --compassSize: 25vw;
+    --centrecompasscircle: 20%;
+    --sunpathwidth: 80%;
+  }
+
+  header {
+    margin-bottom: 2em;
+  }
+
+  div.gradient-per {
+    width: 100%;
+  }
+
+  div.umbrella {
+    width: 100%;
+    flex-direction: row;
+  }
+  div.umbrella_wrapper {
+    flex-direction: column;
+  }
+
+  .baner-wrapper {
+    margin: 0;
+  }
+  div.details-list {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 15px;
+    grid-template:
+      "baner baner baner baner"
+      "uv uv pressure view"
+      "daily daily daily daily"
+      "wind wind sunpath sunpath"
+      "wind wind weekly weekly"
+      "wind wind umbrella humidity";
+  }
+  div.detail-wrapper-col-wind {
+    flex-direction: column;
+    justify-content: center;
+    gap: 4em;
+  }
+  .wind {
+    justify-content: space-between;
+  }
+   #scroll-fading-weekly {
+    display: none;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1349px) {
+  :root {
+    --iconsize: 2vw;
+    --searchicon: 2vw;
+    --iconsizesmall: 2vw;
+    --logoicon: calc(var(--iconsize) + 3vw);
+    --weathericon: 4.5vw;
+    
+    /* textSizes */
+    --temph1: 13em;
+
+    /* width and height*/
+    --searchboxsize-extention: 40vw;
+    --compassSize: 15vw;
+    --centrecompasscircle: 20%;
+    --sunpathwidth: 80%;
+  }
+
+  header {
+    margin-bottom: 2em;
+  }
+
+  div.gradient-per {
+    width: 100%;
+  }
+
+  div.umbrella {
+    width: 100%;
+    flex-direction: row;
+  }
+  div.umbrella_wrapper {
+    flex-direction: column;
+  }
+
+  .baner-wrapper {
+    margin: 0;
+  }
+  div.details-list {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    grid-template:
+      "baner baner baner baner baner"
+      "daily daily daily daily daily"
+      "wind  sunpath  sunpath uv view"
+      "wind  sunpath  sunpath umbrella umbrella"
+      "wind  weekly  weekly humidity pressure";
+  }
+
+  div.detail-wrapper-col-wind {
+    flex-direction: column;
+    justify-content: center;
+    gap: 4em;
+  }
+  .wind {
+    justify-content: space-between;
+  }
+   #scroll-fading-weekly {
+    display: none;
+  }
+}
+
+@media (min-width: 1350px) {
+  :root {
+    /* objects' Size */
+    --iconsize: 1.2vw;
+    --searchicon: 1.2vw;
+    --iconsizesmall: 1vw;
+    --logoicon: calc(var(--iconsize) + 1vw);
+
+    --compassSize: 10vw;
+    --centrecompasscircle: 30%;
+    --sunpathwidth: 50%;
+
+    --weathericon: 2vw;
+
+    --searchboxsize-extention: 20vw;
+    /* textSizes */
+    --appname: 1.2em;
+    --temph1: 13em;
+    --smalltemp: 1.2em;
+    --hot-low: 1.2em;
+    --tempstate: 4em;
+    --detailvaluenorm: 1em;
+    --detailvaluebold: 1.5em;
+    --fontsizewatherdata: 1em;
+  }
+
+  div.gradient-per {
+    width: 100%;
+  }
+
+  div.umbrella {
+    width: 100%;
+    flex-direction: row;
+  }
+  div.umbrella_wrapper {
+    flex-direction: column;
+  }
+
+  section.baner-wrapper {
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 0;
+    margin: 0 5em;
+  }
+
+  .location-wrapper {
+    margin-top: 1em;
+    order: 99;
+  }
+
+  div#hourly-weather-wrapper {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    font-size: var(--detailvaluenorm);
+  }
+  div#hourly-weather-wrapper > *:nth-child(-n + 12) {
+    border-bottom: 1px solid var(--balckcolor-mate);
+    padding-bottom: 1em;
+  }
+
+  #scroll-fading-weekly,#scroll-fading-hourly {
+    display: none;
+  }
+
+  div.details-list {
+    padding: var(--globalpaddingsides);
+    position: fixed;
+    bottom: 1em;
+    left: 0;
+    right: 0;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template:
+      "baner  daily daily  daily  daily"
+      "baner  pressure wind weekly weekly"
+      "baner  humidity wind sunpath umbrella"
+      "baner  view wind sunpath uv";
+  }
+
+  div.detail-wrapper-col-wind {
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+  }
+
+  .details .global-padding {
+    padding: 0;
+  }
+  i.fa-exclamation{
+    font-size: 3vh;
+    color: rgb(255, 148, 148);
+}
+div.gradient-line.rain {
+  width: 55%;
+}
+}
