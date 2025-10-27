@@ -16,7 +16,7 @@ Live Demo: [4castweatherapp.netlify.app](https://4castweatherapp.netlify.app)
 - error handling (invalid city/name and API responses)
 - Dark mode or theming based on the time of the day
 
-## built with H:
+## built with:
 - HTML5  
 - CSS3 (including responsive layout)  
 - JavaScript (fetching weather data from an API) 
