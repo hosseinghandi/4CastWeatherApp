@@ -1,4 +1,5 @@
 <img width="1916" height="905" alt="image" src="https://github.com/user-attachments/assets/3650ee1c-5c79-41cb-842e-859ad40679e8" />
+<img width="1919" height="911" alt="image" src="https://github.com/user-attachments/assets/87d7f3c4-6546-4c54-ad51-2c13b3476c4b" />
 
 # 🌦️ 4CastWeatherApp
 A clean and responsive weather application that provides real-time weather updates and forecasts.  
