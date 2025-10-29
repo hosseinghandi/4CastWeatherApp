@@ -280,37 +280,33 @@ async function fetchDataByCity() {
       renderDataProvision();
     } else {
       throw new Error(
-        "Something went wrong. Please check the location you searched and your permission settings."
+        "Something went wrong. Please check the location you searched and your permission settings.";
       );
     }
   } catch (err) {
-    // if soemthing went wrong try to render the user location weather to not shoutdown the page
-    // inform to the user that maybe the city that they search does not exist 
+    // if soemthing went wrong inform to the user that maybe the city that they search does not exist 
     const errorOnCitySearch = get("errorCitySearch");
     errorOnCitySearch.classList.add("active");
     setTimeout(() => {
       errorOnCitySearch.classList.remove("active");
     }, 4000);
-
-    const pos = await getLocation();
-    lat = pos.latitude.toFixed(2);
-    lon = pos.longitude.toFixed(2);
-    if (lat && lon) {
-    }
-  }
-}
+  };
+};
 
 
-// the main elements provider of the site
+// The main elements provider of the site
 
 function renderDataProvision() {
-  // take just the first aprt of location which is more percise
+  // Take just the first part of location given by API which is more to the point, other part of 
+  // infornations are too much to render
   const locationName =
     locationDataStorage.name || locationDataStorage.display_name.split(",")[0];
+  
   const weathercodeOfcurrentTimedesc =
     weatherCodedesc[current.weather_code][current.is_day].description;
   const weathercodeOfcurrentTimedcatgory =
     weatherCodedesc[current.weather_code][current.is_day].category;
+  
   // select the proper video for background based on the time and the weather code
   videobackgroundEl.innerHTML = "";
   locationEl.innerHTML = "";
@@ -329,8 +325,8 @@ function renderDataProvision() {
     </video>
     `;
 
-  // to enhance the feasibility and readibility of the site, in the night
-  // which the videos are darker, the text and logos becomes white
+  // To improve the usability and readability of the site at night,
+  // when the videos are darker, the text and logos switch to white.
   const currentSky = current.is_day;
   adoptingElColorBy(currentSky);
 
@@ -407,15 +403,15 @@ function hourlyWeatherRender(hourly) {
   const take24hValues = (data) => {
     return data.slice(exactTime.time, exactTime.time + 24);
   };
-  // use function take 24 h data to render dailt weather data
+  // use function take 24 h to extract data for 1 whole day 
   const tempDatatime = take24hValues(hourly.time);
   const tempDatacel = take24hValues(hourly.temperature_2m);
   const weathercodes_h = take24hValues(hourly.weather_code);
   const dayOrNight = take24hValues(hourly.is_day);
   const actualhourList = tempDatatime.map((t) => t.split("T")[1].split(":")[0]);
 
-  // this part use a function to delet the etra values which are not necessary for rendering
-  // make it more readiable and shorter for saving space 
+// This section uses a function to remove unnecessary values before rendering,
+// making the data cleaner and more compact for efficiency.
   const correctedTime =
     actualhourList.length <= 25
       ? filterTime(actualhourList)
@@ -448,8 +444,8 @@ function hourlyWeatherRender(hourly) {
 }
 
 function weeklyWeatherRender(daily) {
-
   const todayindx = days.indexOf(exactTime.day);
+  // Generates a list of the next 7 days, excluding today.
   const makeListOfDays = (
     days.slice(todayindx, 7) + `,${days.slice(0, todayindx + 1)}`
   ).split(",");
@@ -457,8 +453,10 @@ function weeklyWeatherRender(daily) {
   const dailyweatherlist = daily.temperature_2m_max;
   const WeatherCodes_d = daily.weather_code;
   let htmldaily = "";
+  
   // eliminate one of the day beacuse it is already render for the hourly data
-  // for weather code just render the day data, so it is hardcoded as "1" in line 450
+  // for weather code just render the day weather data, so it is hardcoded as "1" in line 461
+  
   for (let onDay = 0; onDay < makeListOfDays.length - 1; onDay++) {
     let code = iconselector(WeatherCodes_d[onDay],1)
     htmldaily += `
@@ -478,7 +476,7 @@ function weeklyWeatherRender(daily) {
   return htmldaily;
 }
 
-
+// Get the data for the askd location or the location of the user at the current moment
 async function gettingLocationData(locationIsAsked) {
   const endpoint = locationIsAsked
     ? `search?format=json&q=${askedLocationIs}&limit=1`
@@ -492,7 +490,8 @@ async function gettingLocationData(locationIsAsked) {
   return dataCorrection;
 }
 
-
+// make a new promise to have proper handling of the geolocation that should solve 
+// latitude and longitude
 function getLocation() {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
@@ -532,9 +531,9 @@ function getLocation() {
   });
 }
 
+// get the data by accessing latitude and longitude saved in global variables
 async function getWeatherData(lat, lon) {
-  // needed information for rendering the page 
-  // for more readability and clean code store it in endpoint varable
+  // end point that is given by the API documents 
   const endpoint = [
     "&daily=visibility_min,pressure_msl_mean,visibility_mean,precipitation_probability_mean,relative_humidity_2m_mean,weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,rain_sum,showers_sum",
     "snowfall_sum,precipitation_sum,precipitation_hours,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant",
@@ -553,7 +552,7 @@ async function getWeatherData(lat, lon) {
   return data;
 }
 
-// adapot the text style  to improve accessbility 
+// Whenever called, should change the style of all elements in white based on current sky 
 function adoptingElColorBy(currentSky) {
   bodyEl.style.color = `${
     currentSky ? "var(--balckcolor)" : "var(--whitecolor)"
